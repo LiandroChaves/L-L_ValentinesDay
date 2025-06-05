@@ -101,7 +101,7 @@
             <h1>Este presente é altamente confidencial e exclusivo, tem certeza que deseja abri-lo??</h1>
             <div id="btn">
                 <a href="index2.html">
-                    <button id="button" onmouseover="Hover(this)">Sim</button>
+                    <button id="button" onmouseover="Hover(this)" onclick="handleClick(event)">Sim</button>
                 </a>
                 <button id="button1" class="button">Não</button>
             </div>
@@ -111,6 +111,9 @@
     <script>
         let fugas = 0;
         const maxFugas = 5;
+
+        // Detecta se é mobile pela largura da tela
+        const isMobile = window.matchMedia("(max-width: 600px)").matches;
 
         function abrirPagina(url) {
             window.location.href = url;
@@ -127,6 +130,16 @@
 
         function Posicao(min, max) {
             return (Math.random() * (max - min) + min) + '%';
+        }
+
+        function handleClick(event) {
+            if (isMobile && fugas < maxFugas) {
+                // Bloqueia o clique no mobile até que fugas seja atingido
+                event.preventDefault();
+            } else {
+                // Permite abrir a página normalmente
+                abrirPagina('index2.html');
+            }
         }
     </script>
 </body>
