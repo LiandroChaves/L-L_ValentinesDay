@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Feliz Dia dos Namorados! ❤️</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="icon" href="./images/icone/love-and-romance.ico">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(360deg, #6a11cb, #9624d8);
+            color: #fefefe;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            padding: 80px 20px 40px;
+            min-height: 100vh;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            width: 50%;
+            padding: 10px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: #fefefe;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+        }
+
+        .custom-player {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .custom-player img {
+            width: 100%;
+            border-radius: 15px;
+            object-fit: cover;
+            max-height: 250px;
+        }
+
+        .custom-player .title {
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+            font-weight: 600;
+            color: #fefefe;
+            text-align: center;
+        }
+
+        .progress,
+        #volume {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #ffffffb0;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* Track */
+        .progress::-webkit-slider-runnable-track,
+        #volume::-webkit-slider-runnable-track {
+            height: 6px;
+            background: #ffffffb0;
+            border-radius: 5px;
+        }
+
+        .progress::-moz-range-track,
+        #volume::-moz-range-track {
+            height: 6px;
+            background: #ffffffb0;
+            border-radius: 5px;
+        }
+
+        /* Thumb (bolinha branca) */
+        .progress::-webkit-slider-thumb,
+        #volume::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            background: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            margin-top: -4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .progress::-webkit-slider-thumb:hover,
+        #volume::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .progress::-moz-range-thumb,
+        #volume::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            background: #fff;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .progress::-moz-range-thumb:hover,
+        #volume::-moz-range-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .controls {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .controls button {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #fefefe;
+            cursor: pointer;
+            transition: transform 0.2s, color 0.3s;
+        }
+
+        .controls button:hover {
+            transform: scale(1.2);
+            color: #ff85a2;
+        }
+
+        .swiper {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            border-radius: 15px;
+            object-fit: contain;
+        }
+
+        .text-content {
+            font-size: clamp(1rem, 2.2vw, 1.1rem);
+            text-align: center;
+            line-height: 1.6;
+            color: #fefefe;
+        }
+
+        .counter {
+            text-align: center;
+            font-size: 1.1em;
+            color: #fefefe;
+        }
+
+        #time-difference {
+            margin-top: 10px;
+            font-size: clamp(1.4rem, 3vw, 1.6rem);
+            font-weight: bold;
+            color: #ffd86b;
+        }
+
+        pre {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #fff;
+            overflow-x: auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: left;
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+            white-space: pre-wrap;
+            /* Faz quebra de linha, mantendo a indentação */
+            word-break: break-word;
+            /* Quebra palavras se necessário */
+            tab-size: 4;
+            /* Controla o tamanho da indentação de tabulação */
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        /* RESPONSIVO */
+        @media (max-width: 600px) {
+            body {
+                padding: 60px 15px 30px;
+                gap: 20px;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .controls button {
+                font-size: 1.6rem;
+            }
+
+            .custom-player img {
+                max-height: 200px;
+            }
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        #background-video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .play-overlay {
+            display: none;
+        }
+
+        .play-overlay:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .custom-player {
+            text-align: center;
+        }
+
+        @media (max-width: 500px) {
+            .play-overlay {
+                font-size: 40px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Feliz Dia dos Namorados! ❤️✨🌸</h1>
+    </header>
+
+    <div class="section custom-player">
+        <div class="video-container">
+            <video id="background-video" src="./video/Aliança - Tribalistas.mp4" muted loop playsinline></video>
+            <div class="play-overlay" id="video-play-button">▶</div>
+        </div>
+        <div class="title">Aliança - Tribalistas</div>
+
+        <input class="progress" type="range" value="0" step="1" min="0">
+
+        <div class="controls">
+            <button id="backward">⏮</button>
+            <button id="play-pause">▶</button>
+            <button id="forward">⏭</button>
+        </div>
+        <div class="title">Volume</div>
+        <input type="range" id="volume" min="0" max="1" step="0.01">
+
+        <audio id="audio" src="./music/Alianca_-_Tribalistas_lyrics_letra.webm" loop></audio>
+    </div>
+
+    <div class="section">
+        <div class="swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="./images/slide-images/1.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="./images/slide-images/2.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="./images/slide-images/3.jpeg" alt=""></div>
+                <div class="swiper-slide"><img src="./images/slide-images/4.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="./images/slide-images/5.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="./images/slide-images/6.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="./images/slide-images/7.webp" alt=""></div>
+                <div class="swiper-slide"><img src="./images/slide-images/8.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="./images/slide-images/9.jpeg" alt=""></div>
+                <div class="swiper-slide"><img src="./images/slide-images/10.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="./images/slide-images/11.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="./images/slide-images/12.webp" alt=""></div>
+                <div class="swiper-slide"><img src="./images/slide-images/13.webp" alt=""></div>
+                <div class="swiper-slide"><img src="./images/slide-images/14.jpg" alt=""></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section counter">
+        <p>Estamos juntos há:</p>
+        <div id="time-difference"></div>
+    </div>
+
+    <div class="section text-content">
+        <p>
+            Graças a Deus e felizmente, mais um dia dos namorados juntos né, meu amor!? Eu só queria te falar e mostrar
+            através desse pequeno presente (isso não é suficiente) o quanto eu te amo!! Quero que você saiba que não
+            apenas esse, mas todos os dias dos namorados eu quero passar junto de ti e isso desde o dia que te conheci.
+            Eu espero muito que goste, meu amor. Apesar de simples, foi feito com muito carinho e o maior amor que você
+            possa imaginar. ❤️✨
+        </p>
+        <pre><code>while(1){
+    printf("Eu te amo, minha princesa!");
+        }</code></pre>
+    </div>
+
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        const swiper = new Swiper('.swiper', {
+            loop: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+        });
+
+        const audio = document.getElementById('audio');
+        const playPauseBtn = document.getElementById('play-pause');
+        const backwardBtn = document.getElementById('backward');
+        const forwardBtn = document.getElementById('forward');
+        const progress = document.querySelector('.progress');
+        const volume = document.getElementById('volume');
+        const video = document.getElementById('background-video');
+
+        playPauseBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                video.play();
+                playPauseBtn.textContent = '⏸';
+                videoPlayButton.textContent = '❚❚';
+            } else {
+                audio.pause();
+                video.pause();
+                playPauseBtn.textContent = '▶';
+                videoPlayButton.textContent = '▶';
+            }
+        });
+
+        const videoPlayButton = document.getElementById('video-play-button');
+        videoPlayButton.addEventListener('click', () => {
+            if (video.paused) {
+                video.play();
+                videoPlayButton.textContent = '❚❚';
+            } else {
+                video.pause();
+                videoPlayButton.textContent = '▶';
+            }
+        });
+
+        backwardBtn.addEventListener('click', () => {
+            audio.currentTime = Math.max(0, audio.currentTime - 10);
+        });
+
+        forwardBtn.addEventListener('click', () => {
+            audio.currentTime = Math.min(audio.duration, audio.currentTime + 10);
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            progress.value = audio.currentTime;
+            progress.max = audio.duration;
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            progress.value = audio.currentTime;
+            progress.max = audio.duration;
+
+            // Sincroniza o vídeo com o áudio
+            video.currentTime = audio.currentTime;
+        });
+
+        if (audio.currentTime <= video.duration) {
+            video.currentTime = audio.currentTime;
+        }
+
+
+        progress.addEventListener('input', () => {
+            audio.currentTime = progress.value;
+        });
+
+        volume.addEventListener('input', () => {
+            audio.volume = volume.value;
+        });
+
+        audio.volume = 0.5;
+        volume.value = 0.5;
+
+        document.addEventListener('click', function initPlayOnce() {
+            audio.play().then(() => {
+                playPauseBtn.textContent = '⏸';
+            }).catch(err => {
+                console.log('Autoplay bloqueado:', err);
+            });
+            video.play().then(() => {
+                videoPlayButton.textContent = '❚❚';
+            }).catch(err => {
+                console.log('Autoplay do vídeo bloqueado:', err);
+            });
+        }, { once: true });
+
+        function updateCounter() {
+            const startDate = new Date('2022-02-22T00:00:00');
+            const now = new Date();
+
+            let years = now.getFullYear() - startDate.getFullYear();
+            let months = now.getMonth() - startDate.getMonth();
+            let days = now.getDate() - startDate.getDate();
+            let hours = now.getHours() - startDate.getHours();
+            let minutes = now.getMinutes() - startDate.getMinutes();
+            let seconds = now.getSeconds() - startDate.getSeconds();
+
+            // Ajuste de segundos negativos
+            if (seconds < 0) {
+                seconds += 60;
+                minutes--;
+            }
+
+            // Ajuste de minutos negativos
+            if (minutes < 0) {
+                minutes += 60;
+                hours--;
+            }
+
+            // Ajuste de horas negativas
+            if (hours < 0) {
+                hours += 24;
+                days--;
+            }
+
+            // Ajuste de dias negativos
+            if (days < 0) {
+                // Calcula o número de dias do mês anterior
+                const previousMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                days += previousMonth.getDate();
+                months--;
+            }
+
+            // Ajuste de meses negativos
+            if (months < 0) {
+                months += 12;
+                years--;
+            }
+
+            const timeStr = `${years} anos, ${months} meses, ${days} dias, ${hours} horas, ${minutes} minutos, ${seconds} segundos`;
+
+            document.getElementById('time-difference').textContent = timeStr;
+        }
+
+        setInterval(updateCounter, 1000);
+        updateCounter();
+
+    </script>
+</body>
+
+</html>
