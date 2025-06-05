@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pode nos dar seus dados?</title>
+    <style>
+        body {
+            background-color: #87CEEB;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        #principal {
+            width: 400px;
+            max-width: 90%;
+            margin: 5% auto;
+            padding: 30px 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            color: #008080;
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+
+        form label {
+            display: block;
+            text-align: left;
+            margin-bottom: 8px;
+            color: #006666;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: #008080;
+            outline: none;
+        }
+
+        button {
+            background-color: #008080;
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #006666;
+        }
+
+        @media only screen and (max-width: 600px) {
+            #principal {
+                padding: 20px 15px;
+            }
+
+            h1 {
+                font-size: 16px;
+            }
+
+            button {
+                width: 100%;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="principal">
+        <h1>Se você realmente for ela, preencha esse pequeno formulário de 50 páginas abaixo.</h1>
+        <form id="formulario">
+            <label for="firstname">
+                Primeiro Nome:
+                <input type="text" id="firstname" name="firstname" required>
+            </label>
+            <br>
+            <label for="lastname">
+                Último Nome:
+                <input type="text" id="lastname" name="lastname" required>
+            </label>
+            <br>
+            <label for="idade">
+                Idade:
+                <input type="number" id="idade" name="idade" required>
+            </label>
+            <br>
+            <label for="nivelbeleza">
+                Nível de Beleza (0-10):
+                <input type="number" id="nivelbeleza" name="nivelbeleza" required>
+            </label>
+            <br><br>
+            <button type="submit">Próxima página</button>
+        </form>
+    </div>
+
+    <script>
+        let tentouSobrenome = false; // Flag para forçar erro na primeira tentativa
+
+        document.getElementById("formulario").addEventListener("submit", function (e) {
+            e.preventDefault(); // Impede o envio padrão
+
+            const firstname = document.getElementById("firstname");
+            const lastname = document.getElementById("lastname");
+            const idade = document.getElementById("idade");
+            const nivel = document.getElementById("nivelbeleza");
+
+            // Validação Primeiro Nome
+            if (firstname.value.trim().toLowerCase() !== "luna") {
+                alert("Nome incorreto! Você será redirecionado.");
+                window.location.href = "index.html";
+                return;
+            }
+
+            const sobrenome = lastname.value.trim().toLowerCase();
+
+            // Forçar erro na primeira vez, mesmo que esteja certo
+            if ((sobrenome === "freitas" || sobrenome === "araujo") && !tentouSobrenome) {
+                alert("Sobrenome incorreto! Tenta colocar de novo aí.");
+                tentouSobrenome = true;
+                lastname.value = "Xubiruba";
+                lastname.focus();
+                return;
+            }
+
+            // Se for diferente ou já tentou antes e ainda errado
+            if (sobrenome !== "freitas" && sobrenome !== "araujo") {
+                alert("Sobrenome incorreto! Tenta colocar de novo aí.");
+                lastname.focus();
+                return;
+            }
+
+            // Validação Idade
+            const idadeVal = parseInt(idade.value);
+            if (isNaN(idadeVal) || idadeVal != 21) {
+                alert("A idade não tá batendo em???");
+                idade.focus();
+                return;
+            }
+
+            // Validação Nível de Beleza
+            const nivelVal = parseFloat(nivel.value);
+            if (isNaN(nivelVal) || (nivelVal > 0 && nivelVal <= 10)) {
+                alert("Só isso de beleza?? Tá errado!!! Verfique novamente o Nível de Beleza.");
+                nivel.value = 9999999;
+                nivel.focus();
+                return;
+            }
+
+            // Tudo certo, pode redirecionar
+            window.location.href = "index5.html";
+        });
+    </script>
+</body>
+
+</html>

@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Presente secreto</title>
+    <title>Seu nome é?</title>
     <style>
         body {
-            background: linear-gradient(360deg, #6a11cb, #9624d8);
+            background-color: #87CEEB;
         }
 
         #principal {
@@ -97,35 +97,17 @@
 <body>
     <div id="principal">
         <div>
-            <h1>Este presente é altamente confidencial e exclusivo, tem certeza que deseja abri-lo??</h1>
+            <h1>Seu nome é Luna de Freitas Araújo??</h1>
             <div id="btn">
-                <a href="index2.html">
-                    <button id="button" onmouseover="Hover(this)">Sim</button>
-                </a>
-                <button id="button1" class="button">Não</button>
+                <a href="index3.html"><button id="button">Sim</button></a>
+                <a href="index.html"><button id="button1" class="button">Não</button></a>
             </div>
         </div>
     </div>
 
     <script>
-        let fugas = 0;
-        const maxFugas = 5;
-
         function abrirPagina(url) {
             window.location.href = url;
-        }
-
-        function Hover(btn) {
-            if (btn.id === "button" && fugas < maxFugas) {
-                btn.style.position = 'absolute';
-                btn.style.top = Posicao(0, 100);
-                btn.style.left = Posicao(0, 100);
-                fugas++;
-            }
-        }
-
-        function Posicao(min, max) {
-            return (Math.random() * (max - min) + min) + '%';
         }
     </script>
 </body>

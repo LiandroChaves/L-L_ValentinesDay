@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estou desconfiado...</title>
+    <style>
+        body {
+            background-color: #87CEEB;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        #principal {
+            width: 400px;
+            max-width: 90%;
+            margin: 5% auto;
+            padding: 30px 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            color: #008080;
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+
+        form label {
+            display: block;
+            text-align: left;
+            margin-bottom: 8px;
+            color: #006666;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: #008080;
+            outline: none;
+        }
+
+        button {
+            background-color: #008080;
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #006666;
+        }
+
+        @media only screen and (max-width: 600px) {
+            #principal {
+                padding: 20px 15px;
+            }
+
+            h1 {
+                font-size: 16px;
+            }
+
+            button {
+                width: 100%;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="principal">
+        <h1>Era brincadeira, só tem 2 páginas<br>Ainda não tô convecido que você seja a Luna. Preencha seu nome
+            completo.</h1>
+        <form id="formulario">
+            <label for="nomecompleto">
+                Nome completo:
+                <input type="text" id="nomecompleto" name="nomecompleto" required>
+            </label>
+            <br>
+            <label for="nomenamorado">
+                Nome do namorado (apenas o primeiro nome):
+                <input type="text" id="nomenamorado" name="nomenamorado" required>
+            </label>
+            <br>
+            <label for="idade">
+                Idade:
+                <input type="number" id="idade" name="idade" required>
+            </label>
+            <br>
+            <label for="abrir">
+                Quer abrir o presente?:
+                <input type="text" id="abrir" name="abrir" required>
+            </label>
+            <br><br>
+            <button type="submit">Próxima página</button>
+        </form>
+    </div>
+
+    <script>
+        let tentouAbrir = false;
+
+        document.getElementById("formulario").addEventListener("submit", function (e) {
+            e.preventDefault(); // Impede o envio padrão
+
+            const nomecompleto = document.getElementById("nomecompleto");
+            const nomenamorado = document.getElementById("nomenamorado");
+            const idade = document.getElementById("idade");
+            const abrir = document.getElementById("abrir");
+
+            // Validação Primeiro Nome
+            if (nomecompleto.value.trim().toLowerCase() !== "luna de freitas araújo") {
+                alert("Nome incorreto! Você será redirecionado.");
+                window.location.href = "index.html";
+                return;
+            }
+
+            // Forçar erro na primeira vez, mesmo que esteja certo
+            if (nomenamorado.value.trim().toLowerCase() != "liandro") {
+                alert("Como é que é???\nTem certeza que o nome do namorado tá certo??? 🤨🤨🤨");
+                nomenamorado.focus();
+                return;
+            }
+
+            // Validação Idade
+            const idadeVal = parseInt(idade.value);
+            if (isNaN(idadeVal) || idadeVal != 21) {
+                alert("A idade não tá correta!!\nDica: Considere a data do dia dos namorados de 2025.");
+                idade.focus();
+                return;
+            }
+
+            const respostaAbrir = abrir.value.trim().toLowerCase();
+
+            if (respostaAbrir === "sim" && !tentouAbrir) {
+                alert("Então, se não quer abrir, pra que tentou tudo isso?? 🤨");
+                tentouAbrir = true;
+                abrir.value = "não"; // altera o campo na interface
+                abrir.focus();
+                return;
+            }
+
+            if (respostaAbrir !== "sim") {
+                alert("Você tem que querer abrir pra continuar! 🙃");
+                abrir.focus();
+                return;
+            }
+
+            // Tudo certo, pode redirecionar
+            alert("Parabéns, você é a Luna de Freitas Araújo! 🎉\nAo passar para próxima página, por favor, clique em qualquer lugar da tela.");
+            window.location.href = "index6.html";
+        });
+    </script>
+</body>
+
+</html>
