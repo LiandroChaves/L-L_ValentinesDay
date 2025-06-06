@@ -405,6 +405,9 @@
         const progress = document.querySelector('.progress');
         const volume = document.getElementById('volume');
         const video = document.getElementById('background-video');
+        const videoPlayButton = document.getElementById('video-play-button');
+
+        let isManuallyPaused = false;
 
         playPauseBtn.addEventListener('click', () => {
             if (audio.paused) {
@@ -412,22 +415,31 @@
                 video.play();
                 playPauseBtn.textContent = '⏸';
                 videoPlayButton.textContent = '❚❚';
+                isManuallyPaused = false;
             } else {
                 audio.pause();
                 video.pause();
                 playPauseBtn.textContent = '▶';
                 videoPlayButton.textContent = '▶';
+                isManuallyPaused = true;
             }
         });
 
-        const videoPlayButton = document.getElementById('video-play-button');
         videoPlayButton.addEventListener('click', () => {
             if (video.paused) {
                 video.play();
                 videoPlayButton.textContent = '❚❚';
+                if (audio.paused && !isManuallyPaused) {
+                    audio.play();
+                    playPauseBtn.textContent = '⏸';
+                }
             } else {
                 video.pause();
                 videoPlayButton.textContent = '▶';
+                if (!audio.paused) {
+                    audio.pause();
+                    playPauseBtn.textContent = '▶';
+                }
             }
         });
 
@@ -442,45 +454,48 @@
         audio.addEventListener('timeupdate', () => {
             progress.value = audio.currentTime;
             progress.max = audio.duration;
+
+            // Opcional: manter vídeo sincronizado visualmente
+            if (!video.paused && Math.abs(video.currentTime - audio.currentTime) > 0.5) {
+                video.currentTime = audio.currentTime;
+            }
         });
-
-        audio.addEventListener('timeupdate', () => {
-            progress.value = audio.currentTime;
-            progress.max = audio.duration;
-
-            // Sincroniza o vídeo com o áudio
-            video.currentTime = audio.currentTime;
-        });
-
-        if (audio.currentTime <= video.duration) {
-            video.currentTime = audio.currentTime;
-        }
-
 
         progress.addEventListener('input', () => {
             audio.currentTime = progress.value;
+            if (!video.paused) {
+                video.currentTime = progress.value;
+            }
         });
 
         volume.addEventListener('input', () => {
             audio.volume = volume.value;
         });
 
+        // Valor inicial do volume
         audio.volume = 0.5;
         volume.value = 0.5;
 
-        document.addEventListener('click', function initPlayOnce() {
-            audio.play().then(() => {
+        // Inicia a reprodução ao primeiro clique do usuário (mobile-friendly)
+        document.addEventListener('click', async function initPlayOnce() {
+            try {
+                await audio.play();
                 playPauseBtn.textContent = '⏸';
-            }).catch(err => {
-                console.log('Autoplay bloqueado:', err);
-            });
-            video.play().then(() => {
+            } catch (err) {
+                console.warn('Autoplay do áudio bloqueado:', err);
+            }
+
+            try {
+                await video.play();
                 videoPlayButton.textContent = '❚❚';
-            }).catch(err => {
-                console.log('Autoplay do vídeo bloqueado:', err);
-            });
+            } catch (err) {
+                console.warn('Autoplay do vídeo bloqueado:', err);
+            }
+
+            // Remove este evento depois de executar
         }, { once: true });
 
+        // Contador de tempo de relacionamento
         function updateCounter() {
             const startDate = new Date('2022-02-22T00:00:00');
             const now = new Date();
@@ -492,37 +507,15 @@
             let minutes = now.getMinutes() - startDate.getMinutes();
             let seconds = now.getSeconds() - startDate.getSeconds();
 
-            // Ajuste de segundos negativos
-            if (seconds < 0) {
-                seconds += 60;
-                minutes--;
-            }
-
-            // Ajuste de minutos negativos
-            if (minutes < 0) {
-                minutes += 60;
-                hours--;
-            }
-
-            // Ajuste de horas negativas
-            if (hours < 0) {
-                hours += 24;
-                days--;
-            }
-
-            // Ajuste de dias negativos
+            if (seconds < 0) { seconds += 60; minutes--; }
+            if (minutes < 0) { minutes += 60; hours--; }
+            if (hours < 0) { hours += 24; days--; }
             if (days < 0) {
-                // Calcula o número de dias do mês anterior
-                const previousMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-                days += previousMonth.getDate();
+                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                days += prevMonth.getDate();
                 months--;
             }
-
-            // Ajuste de meses negativos
-            if (months < 0) {
-                months += 12;
-                years--;
-            }
+            if (months < 0) { months += 12; years--; }
 
             const timeStr = `${years} anos, ${months} meses, ${days} dias, ${hours} horas, ${minutes} minutos, ${seconds} segundos`;
 
@@ -531,7 +524,6 @@
 
         setInterval(updateCounter, 1000);
         updateCounter();
-
     </script>
 </body>
 
