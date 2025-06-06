@@ -106,7 +106,7 @@
             </label>
             <br>
             <label for="idade">
-                Idade:
+                Idade dele:
                 <input type="number" id="idade" name="idade" required>
             </label>
             <br>
@@ -132,8 +132,8 @@
 
             // Validação Primeiro Nome
             if (nomecompleto.value.trim().toLowerCase() !== "luna de freitas araújo") {
-                alert("Nome incorreto! Você será redirecionado.");
-                window.location.href = "index.html";
+                alert("Nome tá errado, viu?! Vou dar mais uma chance, mas não erra de novo tá? 😒\nDica: verifique todos os acentos nas letras");
+                nomecompleto.focus();
                 return;
             }
 
@@ -147,7 +147,7 @@
             // Validação Idade
             const idadeVal = parseInt(idade.value);
             if (isNaN(idadeVal) || idadeVal != 21) {
-                alert("A idade não tá correta!!\nDica: Considere a data do dia dos namorados de 2025.");
+                alert("Num sabe a idade do SEU namorado???? 🤡🤡\nDica: Considere a data do dia dos namorados de 2025.");
                 idade.focus();
                 return;
             }
@@ -155,7 +155,7 @@
             const respostaAbrir = abrir.value.trim().toLowerCase();
 
             if (respostaAbrir === "sim" && !tentouAbrir) {
-                alert("Então, se não quer abrir, pra que tentou tudo isso?? 🤨");
+                alert("Então, se não quer abrir, pra que tentou tudo isso?? 🤡🤨");
                 tentouAbrir = true;
                 abrir.value = "não"; // altera o campo na interface
                 abrir.focus();
@@ -163,7 +163,7 @@
             }
 
             if (respostaAbrir !== "sim") {
-                alert("Você tem que querer abrir pra continuar! 🙃");
+                alert("Você tem que querer abrir pra continuar! 😒");
                 abrir.focus();
                 return;
             }

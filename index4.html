@@ -100,7 +100,7 @@
             </label>
             <br>
             <label for="lastname">
-                Último Nome:
+                Sobrenome:
                 <input type="text" id="lastname" name="lastname" required>
             </label>
             <br>
@@ -131,7 +131,7 @@
 
             // Validação Primeiro Nome
             if (firstname.value.trim().toLowerCase() !== "luna") {
-                alert("Nome incorreto! Você será redirecionado.");
+                alert("VOCÊ NÃO É A LUNA!! Voltando pro inicio...");
                 window.location.href = "index.html";
                 return;
             }
@@ -139,8 +139,8 @@
             const sobrenome = lastname.value.trim().toLowerCase();
 
             // Forçar erro na primeira vez, mesmo que esteja certo
-            if ((sobrenome === "freitas" || sobrenome === "araújo") && !tentouSobrenome) {
-                alert("Sobrenome incorreto! Tenta colocar de novo aí.");
+            if ((sobrenome === "freitas") && !tentouSobrenome) {
+                alert("Tem certeza mesmo que seu sobrenome é Xubiruba?? 🤨😂");
                 tentouSobrenome = true;
                 lastname.value = "Xubiruba";
                 lastname.focus();
@@ -148,15 +148,15 @@
             }
 
             // Se for diferente ou já tentou antes e ainda errado
-            if (sobrenome !== "freitas" && sobrenome !== "araujo") {
-                alert("Sobrenome incorreto! Tenta colocar de novo aí.");
+            if (lastname.value.trim().toLowerCase() !== "freitas") {
+                alert("Sobrenome incorreto! Acho que você errou seu sobrenome aí, não?? 🤔");
                 lastname.focus();
                 return;
             }
 
             // Validação Idade
             const idadeVal = parseInt(idade.value);
-            if (isNaN(idadeVal) || idadeVal != 21) {
+            if (isNaN(idadeVal) || idadeVal !== 21) {
                 alert("A idade não tá batendo em???");
                 idade.focus();
                 return;
@@ -165,9 +165,10 @@
             // Validação Nível de Beleza
             const nivelVal = parseFloat(nivel.value);
             if (isNaN(nivelVal) || (nivelVal > 0 && nivelVal <= 10)) {
-                alert("Só isso de beleza?? Tá errado!!! Verfique novamente o Nível de Beleza.");
+                alert("Só isso de beleza?????\nTem nem perigo!!!\nVou consertar aqui pra você, viu!? 😏");
                 nivel.value = 9999999;
                 nivel.focus();
+                alert("Agora sim tá certo o nível de beleza, viu? 😍");
                 return;
             }
 
